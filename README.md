@@ -4,9 +4,9 @@ Interaktivna web aplikacija za vizualizaciju algoritama za određivanje konveksn
 
 ## Implementirani algoritmi
 
-- **Gift Wrapping** — gradi omotač ivicu po ivicu, izlazno-osjetljiv algoritam
-- **Inkrementalni algoritam** — dodaje tačke jednu po jednu uz ažuriranje horizonta
-- **QuickHull 3D** — koristi strategiju "podijeli pa vladaj" uz rano odbacivanje unutrašnjih tačaka
+- **Gift Wrapping**: gradi omotač ivicu po ivicu (output-sensitive algoritam)
+- **Inkrementalni**: dodaje tačke jednu po jednu uz ažuriranje horizonta
+- **QuickHull 3D**: divide-and-conquer pristup s ranim odbacivanjem unutrašnjih tačaka
 
 ## Zahtjevi
 
@@ -31,9 +31,9 @@ Nakon pokretanja, otvori preglednik na adresi prikazanoj u terminalu (podrazumij
 
 1. **Odaberi algoritam** klikom na jedno od tri dugmeta u lijevoj traci
 2. **Podesi broj tačaka** klizačem (od 6 do 40)
-3. **Klikni "Generiši tačke"** — aplikacija automatski pokreće odabrani algoritam
+3. **Klikni "Generiši tačke"** da pokreneš odabrani algoritam
 4. **Prolazi kroz korake** ručno (dugmad ← →) ili automatski (Play/Pauza)
-5. **Podesi brzinu** animacije klizačem (200 ms – 2000 ms po koraku)
+5. **Podesi brzinu** animacije klizačem (od 200 ms do 2000 ms po koraku)
 6. Za direktno poređenje algoritama, odaberi drugi algoritam bez ponovnog generisanja tačaka
 
 ### Vizualne konvencije
@@ -47,7 +47,7 @@ Nakon pokretanja, otvori preglednik na adresi prikazanoj u terminalu (podrazumij
 | Narandžasta linija | Horizont |
 | Plava ploha | Izgrađeni omotač |
 
-### Upravljanje pogledom
+### Upravljanje pogledom (camera controls)
 
 | Akcija | Rezultat |
 |--------|----------|
