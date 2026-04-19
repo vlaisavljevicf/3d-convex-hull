@@ -1,16 +1,70 @@
-# React + Vite
+# Vizualizacija 3D konveksnog omotača
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interaktivna web aplikacija za vizualizaciju algoritama za određivanje konveksnog omotača u trodimenzionalnom prostoru. Razvijena kao dio magistarskog rada na Odsjeku za matematičke i kompjuterske nauke.
 
-Currently, two official plugins are available:
+## Implementirani algoritmi
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Gift Wrapping** — gradi omotač ivicu po ivicu, izlazno-osjetljiv algoritam
+- **Inkrementalni algoritam** — dodaje tačke jednu po jednu uz ažuriranje horizonta
+- **QuickHull 3D** — koristi strategiju "podijeli pa vladaj" uz rano odbacivanje unutrašnjih tačaka
 
-## React Compiler
+## Zahtjevi
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [Node.js](https://nodejs.org/) verzija **18 ili novija**
 
-## Expanding the ESLint configuration
+## Pokretanje
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# 1. Uđi u folder projekta
+cd convex-hull-3d
+
+# 2. Instaliraj zavisnosti
+npm install
+
+# 3. Pokreni razvojni server
+npm run dev
+```
+
+Nakon pokretanja, otvori preglednik na adresi prikazanoj u terminalu (podrazumijevano `http://localhost:5173`).
+
+## Korištenje aplikacije
+
+1. **Odaberi algoritam** klikom na jedno od tri dugmeta u lijevoj traci
+2. **Podesi broj tačaka** klizačem (od 6 do 40)
+3. **Klikni "Generiši tačke"** — aplikacija automatski pokreće odabrani algoritam
+4. **Prolazi kroz korake** ručno (dugmad ← →) ili automatski (Play/Pauza)
+5. **Podesi brzinu** animacije klizačem (200 ms – 2000 ms po koraku)
+6. Za direktno poređenje algoritama, odaberi drugi algoritam bez ponovnog generisanja tačaka
+
+### Vizualne konvencije
+
+| Boja | Značenje |
+|------|----------|
+| Narandžasta sfera | Aktivna tačka (trenutno se dodaje) |
+| Zelena sfera | Tjeme konveksnog omotača |
+| Plava sfera | Tačka unutar omotača |
+| Crvena ploha | Vidljiva ploha iz aktivne tačke |
+| Narandžasta linija | Horizont |
+| Plava ploha | Izgrađeni omotač |
+
+### Upravljanje pogledom
+
+| Akcija | Rezultat |
+|--------|----------|
+| Lijevi klik + povlačenje | Rotacija scene |
+| Desni klik + povlačenje | Pomicanje scene |
+| Kotač miša | Zum |
+
+## Build za produkciju
+
+```bash
+npm run build
+```
+
+Rezultat se nalazi u folderu `dist/` i može se servirati bilo kojim statičkim web serverom.
+
+## Tehnologije
+
+- [React 19](https://react.dev/)
+- [Three.js 0.183](https://threejs.org/)
+- [Vite 8](https://vitejs.dev/)
