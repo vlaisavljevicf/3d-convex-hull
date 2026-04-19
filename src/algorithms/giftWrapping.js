@@ -8,8 +8,8 @@ function faceKey(f) {
   return [...f].sort((a, b) => a - b).join(",");
 }
 
-// Pivot around directed edge (u->v): find w such that orient3D(u,v,w,i) <= 0
-// for all other points i (all points are on or behind plane u,v,w).
+// Pivot oko usmjerene ivice (u->v): traži w takvo da su sve ostale tačke
+// na negativnoj strani ravni (u, v, w).
 function pivotAroundEdge(pts, u, v) {
   const n = pts.length;
   let w = -1;
@@ -86,14 +86,14 @@ export function computeGiftWrappingSteps(points) {
     return steps;
   }
 
-  // Interior point of tetrahedron - used to orient faces outward
+  // Unutrašnja tačka tetraedra — koristi se za orijentaciju ploha prema van
   const interior = [
     (pts[a][0] + pts[b][0] + pts[c][0] + pts[d][0]) / 4,
     (pts[a][1] + pts[b][1] + pts[c][1] + pts[d][1]) / 4,
     (pts[a][2] + pts[b][2] + pts[c][2] + pts[d][2]) / 4,
   ];
 
-  // Orient face so normal points AWAY from interior (outward)
+  // Orijentiraj plohu tako da normala pokazuje prema van od unutrašnje tačke
   function orientFace(u, v, w) {
     if (orient3D(pts[u], pts[v], pts[w], interior) > 0) {
       return [v, u, w];
@@ -101,16 +101,14 @@ export function computeGiftWrappingSteps(points) {
     return [u, v, w];
   }
 
-  // Start with a SINGLE seed face. The queue will discover all other faces.
-  // Do NOT start with a full tetrahedron - that closes all 12 directed edges
-  // into processedDirEdges leaving the queue empty.
+  // Počinjemo s jednom početnom plohom — red će otkriti sve ostale.
+  // Ne koristimo cijeli tetraedar kako red ivica ne bi odmah bio zatvoren.
   const seedFace = orientFace(a, b, c);
   const faces = [seedFace];
   const hullVerts = new Set([a, b, c]);
   const seenFaceKeys = new Set([faceKey(seedFace)]);
 
-  // Track directed edges: each face "owns" its 3 directed edges.
-  // Reversed edges are queued for neighbour discovery.
+  // Svaka ploha posjeduje 3 usmjerene ivice; obrnute ivice idu u red.
   const processedDirEdges = new Set();
   const edgeQueue = [];
 
@@ -119,7 +117,7 @@ export function computeGiftWrappingSteps(points) {
   processedDirEdges.add(dirEdgeKey(sv, sw));
   processedDirEdges.add(dirEdgeKey(sw, su));
 
-  // Queue reversed edges - pivot will find the adjacent faces
+    // Obrnute ivice u red — pivot će pronaći susjedne plohe
   edgeQueue.push([sv, su]);
   edgeQueue.push([sw, sv]);
   edgeQueue.push([su, sw]);
@@ -153,7 +151,7 @@ export function computeGiftWrappingSteps(points) {
       continue;
     }
 
-    // Face must be outward-facing: interior must be on negative side
+    // Ploha mora biti okrenuta prema van — unutrašnja tačka mora biti na negativnoj strani
     if (orient3D(pts[u], pts[v], pts[w], interior) > 0) {
       continue;
     }
@@ -171,7 +169,7 @@ export function computeGiftWrappingSteps(points) {
     hullVerts.add(v);
     hullVerts.add(w);
 
-    // Mark all directed edges of new face as owned
+    // Označi sve usmjerene ivice nove plohe kao obrađene
     processedDirEdges.add(dirEdgeKey(u, v));
     processedDirEdges.add(dirEdgeKey(v, w));
     processedDirEdges.add(dirEdgeKey(w, u));
@@ -186,7 +184,7 @@ export function computeGiftWrappingSteps(points) {
       lastFaces: [[...newFace]],
     });
 
-    // Queue reversed edges for neighbour discovery
+    // Dodaj obrnute ivice u red za daljnje otkrivanje
     for (const [p, q] of [[v, u], [w, v], [u, w]]) {
       if (!processedDirEdges.has(dirEdgeKey(p, q))) {
         edgeQueue.push([p, q]);

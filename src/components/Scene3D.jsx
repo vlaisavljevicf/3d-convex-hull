@@ -176,7 +176,7 @@ function drawGrid(scene) {
   grid.userData.isStatic = true;
   scene.add(grid);
 
-  // Outer ring
+  // Vanjski prstenasti okvir mreže
   const ringArr = [];
   const seg = 64;
   const R = 3.2;
@@ -208,7 +208,7 @@ function drawAxes(scene) {
     axis.userData.isStatic = true;
     scene.add(axis);
 
-    // Axis label sprite
+    // Sprite s oznakom ose (X, Y, Z)
     const cv = document.createElement("canvas");
     cv.width = 32; cv.height = 32;
     const cx = cv.getContext("2d");
@@ -240,7 +240,7 @@ function clearVisualization(scene) {
 }
 
 function drawPoints(scene, points, step) {
-  // On done step, compute hull membership directly from faces (most accurate)
+  // Na završenom koraku, skup tjemena računamo direktno iz ploha
   const hullSet = (step?.done && step?.faces)
     ? new Set(step.faces.flat())
     : new Set(step?.hullVerts || []);
@@ -314,7 +314,7 @@ function drawFaces(scene, points, faces, type) {
   });
   scene.add(new THREE.Mesh(geo, mat));
 
-  // Ivice ploha
+  // Ivice ploha (wireframe)
   const edgeArr = [];
   faces.forEach((f) => {
     const [a, b, c] = f.map((i) => points[i]);
